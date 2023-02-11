@@ -6,7 +6,7 @@ const authService = new AuthService();
 class AuthController {
 
     public async signUp(req: Request, res: Response) {
-        const response = await authService.signUp();
+        const response = await authService.signUp(req.body);
         return res.json(response);
     }
 
@@ -14,7 +14,5 @@ class AuthController {
         const response = await authService.signIn();
         return res.json(response);
     }
-
 }
-
 export default AuthController;

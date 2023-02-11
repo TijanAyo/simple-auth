@@ -1,4 +1,3 @@
-import { PrismaClient } from "@prisma/client";
 import express from "express";
 import * as dotenv from "dotenv";
 import morgan from "morgan";
