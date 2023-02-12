@@ -11,7 +11,7 @@ class AuthController {
     }
 
     public async signIn(req: Request, res: Response) {
-        const response = await authService.signIn();
+        const response = await authService.signIn(req.body);
         return res.json(response);
     }
 }

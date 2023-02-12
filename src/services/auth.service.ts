@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
-import { AuthDto } from "../types";
-import { signUpSchema } from "../validation";
+import { AuthDto, signInDto } from "../types";
+import { signUpSchema, signInSchema } from "../validation";
 import * as bcrypt from "bcrypt";
 
 
@@ -15,7 +15,7 @@ class AuthService {
             });
             if (!foundUser) {
                 // validate user input
-                const validatedUserInput = await signUpSchema.validateAsync(payload);
+                await signUpSchema.validateAsync(payload);
                 // Hash user password
                 const hashpassword = await this.hashPassword(payload.password);
                 // Create user
@@ -36,13 +36,33 @@ class AuthService {
         }
     }
 
-    public async signIn() {
-        return 'I am signIn route';
+    public async signIn(payload: signInDto) {
+        try {
+            // Validate the user input
+            await signInSchema.validateAsync(payload);
+            // Check if the user exist
+            const userExist = await prisma.user.findUnique({ where: { email: payload.email }});
+            // if the user exist compare the password that was given with the password provided
+            if (!userExist) {
+                return { message: "User not found... Check email and try again", statusCode: 404}
+            }
+
+            // if it checks out provide the user with an accessToken and refreshToken
+
+            return 'I am signIn route';
+
+        } catch(err:any) {
+            return { message: err.message, statusCode: err.statusCode || 500};
+        }
     }
 
     private async hashPassword(password:string): Promise<string> {
         const saltOrRounds= process.env.SALT;
         return await bcrypt.hash(password, Number(saltOrRounds));
+    }
+
+    private async signToken() {
+        // Send the user accessToken and refreshToken
     }
 }
 export default AuthService;

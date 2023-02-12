@@ -5,3 +5,8 @@ export type AuthDto = {
     createdAt: Date;
     updatedAt: Date;
 }
+
+export type signInDto = {
+    email: string;
+    password: string;
+}
