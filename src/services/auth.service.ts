@@ -65,14 +65,14 @@ class AuthService {
         return await bcrypt.hash(password, Number(saltOrRounds));
     }
 
-    private async signToken(args: { id: string, email: string}) {
+    private async signToken(args: { id: string, email: string}): Promise<string> {
         // Send the user accessToken and refreshToken
         const payload = args;
         const secret = process.env.JWT_SECRET as string;
         return jwt.sign(payload, secret, { expiresIn: '1h' });;
     }
 
-    private async comparePassword(password: string, hash: string) {
+    private async comparePassword(password: string, hash: string): Promise<boolean> {
         // compare user password with hashpassword
         return await bcrypt.compare(password, hash);
     }
