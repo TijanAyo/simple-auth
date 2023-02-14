@@ -1,27 +1,30 @@
 import PostService from "../services/post.service";
+import { Request, Response } from "express";
 
 const postService = new PostService();
-
 class PostController {
-
     // Accessible by everyone
-    public async getAllPost() {
-        return postService.getAllPost();
+    public async getAllPost(req: Request, res: Response) {
+        const response = await postService.getAllPost();
+        return res.json(response);
     }
 
     // Only accessible to logged in users
-    public async createPost() {
-        return postService.createPost();
+    public async createPost(req: Request, res: Response) {
+        const response = await postService.createPost();
+        return res.json(response);
     }
 
     // Only accessible to logged in users
-    public async updatePost() {
-        return postService.updatePost();    
+    public async updatePost(req: Request, res: Response) {
+        const response = await postService.updatePost();
+        return res.json(response);   
     }
 
     // Only accessible to logged in users
-    public async deletePost() {
-        return postService.deletePost();
+    public async deletePost(req: Request, res: Response) {
+        const response = await postService.deletePost();
+        return res.json(response);
     }
 }
 
