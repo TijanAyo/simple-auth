@@ -1,5 +1,4 @@
 import * as jwt from "jsonwebtoken";
-
 export class JwtService {
 
     public async generateAccessToken(params: { id: string, email: string }): Promise<string> {
@@ -12,7 +11,5 @@ export class JwtService {
         return jwt.sign(user, secret);
     }
 
-
     public async verfiyToken() {}
-
 }

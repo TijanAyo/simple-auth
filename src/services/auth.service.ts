@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import { AuthDto, signInDto } from "../types";
 import { signUpSchema, signInSchema } from "../validation";
 import * as bcrypt from "bcrypt";
-import { JwtService } from "./jwt.secret";
+import { JwtService } from "./jwt.service";
 
 
 const prisma = new PrismaClient();
