@@ -2,8 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import { AuthDto, signInDto } from "../types";
 import { signUpSchema, signInSchema } from "../validation";
 import * as bcrypt from "bcrypt";
-import { JwtService } from "./jwt.service";
-
+import JwtService from "../helper/jwt.service";
 
 const prisma = new PrismaClient();
 const jwt = new JwtService();
@@ -49,10 +48,9 @@ class AuthService {
             const isMatch = await this.comparePassword(payload.password, foundUser.password);
             if (!isMatch) return { message: "Password does not match", statusCode: 401}
             const tokenArgs = { id: foundUser.id, email: foundUser.email };
-            const accessToken = await jwt.generateAccessToken(tokenArgs);
-            const refreshToken = await jwt.generateRefreshToken(tokenArgs);
+            const accessToken = await jwt.generateToken(tokenArgs);
 
-            return { "accessToken": accessToken, "refreshToken": refreshToken }
+            return { "accessToken": accessToken, }
 
         } catch(err:any) {
             return { message: err.message, statusCode: err.statusCode || 500};
