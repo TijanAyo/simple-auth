@@ -7,7 +7,9 @@ const authMiddleware = new AuthMiddleware();
 
 const router = express.Router();
 
-router.get('/', postController.getAllPost);
+router.get('/', postController.listAllPost);
+router.get('/lookup/:postId', postController.getPost);
+
 router.post('/new', authMiddleware.authorize, postController.createPost);
 router.patch('/update/:postId', authMiddleware.authorize, postController.updatePost);
 router.delete('/remove/:postId', authMiddleware.authorize, postController.deletePost);

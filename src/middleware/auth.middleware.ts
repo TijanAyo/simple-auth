@@ -24,7 +24,7 @@ class AuthMiddleware {
                 next();
 
             } catch(err) {
-                console.error(err as string)
+                //console.error(err as string)
                 return res.status(401).json({
                     message: "Not Authorized(Token Expired), Please login to continue",
                 });
