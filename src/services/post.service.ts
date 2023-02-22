@@ -19,7 +19,7 @@ class PostService {
         }
     }
 
-    public async createPost(payload: PostDto, userId: string) {
+    public async createPost(payload: PostDto, userId: string): Promise<object> {
         try {
             await postArticleSchema.validateAsync(payload);
             const newPost = await prisma.article.create({
@@ -36,16 +36,14 @@ class PostService {
         }
     }
 
-    public async updatePost(postId:string, payload: PostDto, userId: string) {
+    public async updatePost(postId:string, payload: PostDto, userId: string): Promise<object> {
         try {
             const post = await prisma.article.findUnique({ where: { id: postId }});
             if (!post) return { statusCode: 404, message: `Content with ID: ${postId} does not exist`};
             if (post.authorId !== userId) return { statusCode: 401, message: `You are not authorized to make changes to this post` };
             await updateArticleSchema.validateAsync(payload);
             const updateContent = await prisma.article.update({
-                where: {
-                    id: postId
-                },
+                where: { id: postId },
                 data: {
                     title: payload.title,
                     content: payload.content
@@ -59,7 +57,7 @@ class PostService {
         }
     }
 
-    public async deletePost(postId: string, userId: string) {
+    public async deletePost(postId: string, userId: string): Promise<{ statusCode: number, message: string }> {
         try {
             const post = await prisma.article.findUnique({ where: { id: postId }});
             if (!post) return { statusCode: 404, message: `Content with ID: ${postId} not found`};
@@ -72,5 +70,4 @@ class PostService {
         }
     }
 }
-
 export default PostService;

@@ -10,9 +10,7 @@ class AuthService {
     public async signUp(payload: AuthDto): Promise<{ message: string, statusCode: number }> {
         try {
             const foundUser = await prisma.user.findUnique({
-                where: {
-                  email: payload.email
-                }
+                where: { email: payload.email }
             });
             if (!foundUser) {
                 // validate user input
@@ -32,7 +30,6 @@ class AuthService {
                 return { message: "A user with this email exist.", statusCode: 400};
             }
         } catch (err:any) {
-            // Catch error from Zod validation library
             return { message: err.message, statusCode: err.statusCode || 500};
         }
     }
@@ -51,7 +48,6 @@ class AuthService {
             const accessToken = await jwt.generateToken(tokenArgs);
 
             return { "accessToken": accessToken, }
-
         } catch(err:any) {
             return { message: err.message, statusCode: err.statusCode || 500};
         }
